@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fish Feeder by Gokul Raj</title>
+    <!-- Include jQuery and jQuery UI -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+</head>
+<body>
+    <h1>Click below to ON/OFF Switch Feeder</h1>
+    <div id="toggleContainer">
+        <label for="toggleBtn">FISH Feeder ON/OFF:</label>
+        <input type="checkbox" id="toggleBtn">
+    </div>
+
+    <div id="toggleContainer2">
+  
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $("#toggleBtn").click(function() {
+                var isChecked = $(this).is(":checked");
+                if (isChecked) {
+                    startUpdate();
+                } else {
+                    stopUpdate();
+                }
+            });
+        });
+
+        function startUpdate() {
+            var formData = {
+                column1: '1',
+            };
+
+            $.ajax({
+                url: 'http://localhost:5000/update',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(formData),
+                success: function(response) {
+                    console.log('Fish Feeder Started successfully');
+                    document.getElementById('toggleContainer2').innerHTML='Fish Feeder Started successfully';
+                    //popup.document.getElementById('the-field').value = "Hello There";
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error updating data:', error);
+                }
+            });
+        }
+
+        function stopUpdate() {
+            // You can add functionality here if needed
+            var formData = {
+                column1: '0',
+            };
+
+            $.ajax({
+                url: 'http://localhost:5000/update',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(formData),
+                success: function(response) {
+                    console.log('Fish Feeder Stopped successfully');
+                    document.getElementById('toggleContainer2').innerHTML='Fish Feeder Stopped successfully';
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error updating data:', error);
+                }
+            });
+        }
+      
+
+    </script>
+</body>
+</html>
